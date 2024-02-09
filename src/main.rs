@@ -20,6 +20,11 @@ fn main() {
             if !curr.is_empty() && last != curr {
                 last = curr.to_owned();
                 println!("Contents of primary selection: {}", last);
+                let definition = webster::dictionary(&last);
+                println!("definition: {}", match(definition) {
+                    Some(dfn) => dfn,
+                    None      => "Sorry, no definition found.",
+                });
                 println!("Waiting for selection...");
             }
         }
