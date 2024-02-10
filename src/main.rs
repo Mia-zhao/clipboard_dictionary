@@ -1,3 +1,10 @@
+#[path = "lib/position.rs"]
+mod position;
+#[path = "lib/tooltip.rs"]
+mod tooltip;
+#[path = "lib/dictionary.rs"]
+mod dictionary;
+
 use x11_clipboard::Clipboard;
 
 fn main() {
@@ -5,6 +12,7 @@ fn main() {
     let mut last = String::new();
 
     println!("Waiting for selection...");
+
 
     loop {
         if let Ok(curr) = clipboard.load_wait(
@@ -20,11 +28,10 @@ fn main() {
             if !curr.is_empty() && last != curr {
                 last = curr.to_owned();
                 println!("Contents of primary selection: {}", last);
-                let definition = webster::dictionary(&last);
-                println!("definition: {}", match(definition) {
-                    Some(dfn) => dfn,
-                    None      => "Sorry, no definition found.",
-                });
+                let definition = dictionary::get_definition(&last);
+                let (x, y) = position::get_position();
+                println!("definition: {definition}");
+                tooltip::generate_tooltip(x, y, definition);
                 println!("Waiting for selection...");
             }
         }
