@@ -17,6 +17,12 @@ pub fn generate_tooltip(x: i32, y: i32, definition: String) {
             window.close();
             gtk::glib::Propagation::Stop
         });
+        window.connect_key_press_event(|window, key| {
+            if key.keyval() == gdk::keys::constants::Escape {
+                window.close();
+            }
+            gtk::glib::Propagation::Stop
+        });
     });
     application.run();
 }
