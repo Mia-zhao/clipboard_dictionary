@@ -13,7 +13,6 @@ fn main() {
 
     println!("Waiting for selection...");
 
-
     loop {
         if let Ok(curr) = clipboard.load_wait(
             clipboard.getter.atoms.primary,
